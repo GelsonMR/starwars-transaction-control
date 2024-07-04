@@ -1,5 +1,5 @@
 {
-  "name": "ledn-frontend-challenge",
+  "name": "starwars-transaction-control",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
