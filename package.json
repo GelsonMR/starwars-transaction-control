@@ -45,10 +45,11 @@
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.5.2",
-    "jest": "27.5.1",
-    "miragejs": "0.1.48",
     "@types/node": "16.18.71",
     "@types/react": "18.2.48",
-    "@types/react-dom": "18.2.18"
+    "@types/react-dom": "18.2.18",
+    "jest": "27.5.1",
+    "miragejs": "0.1.48",
+    "prettier": "3.3.2"
   }
 }

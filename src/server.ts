@@ -174,9 +174,11 @@ export function makeServer({ environment = 'development' } = {}) {
       // Fetch transactions by a list of user IDs
       this.get('/transactions/users/:ids', (schema: any, request) => {
         const userIds = JSON.parse(request.params.ids);
-        
+
         // Retrieve transactions for the specified user IDs
-        const transactions = schema.transactions.where((transaction: Transaction) => userIds.includes(transaction.user)).models;
+        const transactions = schema.transactions.where(
+          (transaction: Transaction) => userIds.includes(transaction.user),
+        ).models;
 
         return {
           transactions,
@@ -190,7 +192,9 @@ export function makeServer({ environment = 'development' } = {}) {
 
         // Update each transaction in the batch
         updatedTransactions.forEach((updatedTransaction: Transaction) => {
-          const existingTransaction = schema.transactions.find(updatedTransaction.id);
+          const existingTransaction = schema.transactions.find(
+            updatedTransaction.id,
+          );
 
           if (existingTransaction) {
             existingTransaction.update(updatedTransaction);
