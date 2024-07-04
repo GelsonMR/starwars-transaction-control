@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './app/page';
 import { makeServer } from './server';
 
 const root = ReactDOM.createRoot(
