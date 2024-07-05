@@ -1,27 +1,41 @@
+import { ChangeEvent, useState } from 'react';
 import {
-  Avatar,
   Flex,
+  TextInput,
   LoadingOverlay,
   ScrollArea,
-  Text,
   Title,
 } from '@mantine/core';
-import { usePlanets } from '../../hooks/usePlanets';
 import { Planet } from '../../types';
 import { PlanetCard } from '../PlanetCard';
 import { PlanetSelectionProps } from './types';
+import { usePlanets } from '../../hooks/usePlanets';
 
 export const PlanetSelection = ({
   selected,
   onChange,
 }: PlanetSelectionProps) => {
-  const { data, isFetching, isError } = usePlanets();
+  const [query, setQuery] = useState('');
+  const { data, isFetching, isError } = usePlanets({ searchQuery: query });
+
   const handlePlanetClick = (planet?: Planet) => {
     onChange?.(planet);
   };
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.currentTarget.value);
+  };
+
   return (
-    <Flex direction="column" py="xl" pos="fixed" inset={0}>
-      <Title ml="xl">Planets</Title>
+    <Flex direction="column" py="xl">
+      <Flex mx="xl">
+        <Title mr="auto">Planets</Title>
+        <TextInput
+          value={query}
+          placeholder="Search planet"
+          onChange={handleSearchChange}
+        />
+      </Flex>
       <LoadingOverlay
         visible={isFetching}
         zIndex={1000}
@@ -30,30 +44,19 @@ export const PlanetSelection = ({
       {data && (
         <ScrollArea>
           <Flex gap="sm" p="xl" py="sm">
-            <PlanetCard
-              selected={!selected}
-              onClick={() => handlePlanetClick()}
-            >
-              <Flex direction="column" p="xs" h="100%">
-                <Text fw={700} mb="auto">
-                  All planets
-                </Text>
-              </Flex>
-            </PlanetCard>
+            {!query && (
+              <PlanetCard
+                selected={!selected}
+                onClick={() => handlePlanetClick()}
+              />
+            )}
             {data?.map((planet) => (
               <PlanetCard
                 key={planet.id}
                 planet={planet}
                 selected={selected === planet.id}
                 onClick={() => handlePlanetClick(planet)}
-              >
-                <Flex direction="column" p="xs" h="100%">
-                  <Text fw={700} mb="auto">
-                    {planet.name}
-                  </Text>
-                  <Avatar key={planet.id} name={planet.name} color="initials" />
-                </Flex>
-              </PlanetCard>
+              />
             ))}
           </Flex>
         </ScrollArea>

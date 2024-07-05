@@ -1,6 +1,6 @@
-import { useTransactions } from './useTransactions';
-import { renderHook, waitFor } from '../utils/test';
-import { makeServer } from '../../server';
+import { useTransactions } from '.';
+import { renderHook, waitFor } from '../../utils/test';
+import { makeServer } from '../../../server';
 import { Server } from 'miragejs';
 
 describe('useTransactions hook', () => {
