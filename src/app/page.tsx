@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { PlanetSelection } from './components/PlanetSelection';
 import { Providers } from './utils/providers';
+import { PlanetSelection } from './components/PlanetSelection';
+import { TransactionsList } from './components/TransactionsList';
 
 const App = () => {
   const [planetId, setPlanetId] = useState<string>();
@@ -12,6 +13,7 @@ const App = () => {
           setPlanetId(planet?.id);
         }}
       />
+      <TransactionsList />
     </Providers>
   );
 };
