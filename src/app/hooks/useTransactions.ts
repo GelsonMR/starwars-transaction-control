@@ -3,7 +3,7 @@ import { getTransactions } from '../services';
 
 export const useTransactions = () => {
   const query = useQuery({
-    queryKey: ['Transactions'],
+    queryKey: ['transactions'],
     queryFn: getTransactions,
   });
 

@@ -1,10 +1,10 @@
-import { PlanetsPage } from './planets/page';
+import { PlanetsSelection } from './components/PlanetsSelection';
 import { Providers } from './utils/providers';
 
 const App = () => {
   return (
     <Providers>
-      <PlanetsPage />
+      <PlanetsSelection />
     </Providers>
   );
 };

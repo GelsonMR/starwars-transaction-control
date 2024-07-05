@@ -6,10 +6,10 @@ import {
   ScrollArea,
   Table,
 } from '@mantine/core';
-import { usePlanets } from './hooks/usePlanets';
-import { Planet } from './types';
+import { usePlanets } from '../../hooks/usePlanets';
+import { Planet } from '../../types';
 
-export const PlanetsPage = () => {
+export const PlanetsSelection = () => {
   const { data, isFetching, isError } = usePlanets();
   const handlePlanetClick = (planet: Planet) => {
     console.log(planet);

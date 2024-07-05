@@ -1,3 +1,12 @@
+export interface Transaction {
+  id: string;
+  user: string;
+  amount: number;
+  currency: string;
+  date: string;
+  status: string;
+}
+
 export interface Planet {
   name: string;
   rotation_period: string;
