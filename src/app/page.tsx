@@ -1,10 +1,17 @@
-import { PlanetsSelection } from './components/PlanetsSelection';
+import { useState } from 'react';
+import { PlanetSelection } from './components/PlanetSelection';
 import { Providers } from './utils/providers';
 
 const App = () => {
+  const [planetId, setPlanetId] = useState<string>();
   return (
     <Providers>
-      <PlanetsSelection />
+      <PlanetSelection
+        selected={planetId}
+        onChange={(planet) => {
+          setPlanetId(planet?.id);
+        }}
+      />
     </Providers>
   );
 };
