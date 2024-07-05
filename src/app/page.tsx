@@ -1,9 +1,10 @@
+import { PlanetsPage } from './planets/page';
 import { Providers } from './utils/providers';
 
 const App = () => {
   return (
     <Providers>
-      <h1>Ledn frontend challenge</h1>
+      <PlanetsPage />
     </Providers>
   );
 };
