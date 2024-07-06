@@ -41,6 +41,11 @@ export const PlanetSelection = ({
         zIndex={1000}
         overlayProps={{ radius: 'sm', blur: 2 }}
       />
+      {data && !data.length && (
+        <Title order={2} m="xl">
+          No planets found
+        </Title>
+      )}
       {data && (
         <ScrollArea>
           <Flex gap="sm" p="xl" py="sm">
@@ -61,7 +66,11 @@ export const PlanetSelection = ({
           </Flex>
         </ScrollArea>
       )}
-      {isError && <h2>Failed to load planets</h2>}
+      {isError && (
+        <Title order={2} m="xl">
+          Failed to load planets
+        </Title>
+      )}
     </Flex>
   );
 };
