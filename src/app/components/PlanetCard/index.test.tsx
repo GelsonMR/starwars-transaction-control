@@ -20,6 +20,16 @@ describe('PlanetCard component', () => {
     edited: '',
     id: '',
     transactions: {
+      currencies: {
+        ICS: {
+          sum: 900,
+          length: 10,
+        },
+        GCS: {
+          sum: 100,
+          length: 5,
+        },
+      },
       sum: 1000,
       length: 15,
     },
@@ -66,5 +76,15 @@ describe('PlanetCard component', () => {
     const transactionLength = screen.getByText(/1 transaction/i);
 
     expect(transactionLength).toBeInTheDocument();
+  });
+
+  test('renders planet ICS and GCS transaction amount', () => {
+    render(<PlanetCard planet={planetMock} />);
+
+    const ICSAmount = screen.getByText(/ICS 900/i);
+    const GCSAmount = screen.getByText(/GCS 100/i);
+
+    expect(ICSAmount).toBeInTheDocument();
+    expect(GCSAmount).toBeInTheDocument();
   });
 });

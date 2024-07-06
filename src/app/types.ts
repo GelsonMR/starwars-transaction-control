@@ -28,6 +28,7 @@ export interface Planet {
   edited: string;
   id: string;
   transactions?: {
+    currencies?: Record<Currency, { sum: number; length: number }>;
     sum: number;
     length: number;
   };

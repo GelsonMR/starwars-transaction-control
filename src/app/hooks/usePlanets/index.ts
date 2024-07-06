@@ -35,10 +35,32 @@ export const usePlanets = ({ searchQuery = '' }: UsePlanetsOptions = {}) => {
             transactionsQuery.data?.filter(
               (transaction) => planet.id === transaction.planet?.id,
             ) || [];
+          const ICSTransactions = planetTransactions.filter(
+            ({ currency }) => currency === 'ICS',
+          );
+          const GCSTransactions = planetTransactions.filter(
+            ({ currency }) => currency === 'GCS',
+          );
 
           return {
             ...planet,
             transactions: {
+              currencies: {
+                ICS: {
+                  sum: Decimal.sum(
+                    0,
+                    ...ICSTransactions.map(({ amount }) => amount),
+                  ).toNumber(),
+                  length: ICSTransactions.length,
+                },
+                GCS: {
+                  sum: Decimal.sum(
+                    0,
+                    ...GCSTransactions.map(({ amount }) => amount),
+                  ).toNumber(),
+                  length: GCSTransactions.length,
+                },
+              },
               sum: Decimal.sum(
                 0,
                 ...planetTransactions.map(({ amount }) => amount),

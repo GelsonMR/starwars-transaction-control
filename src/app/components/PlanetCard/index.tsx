@@ -16,11 +16,17 @@ export const PlanetCard = ({
         {planet?.transactions && (
           <>
             <Text size="xs" c="gray">
+              ICS {planet.transactions.currencies?.ICS.sum}
+            </Text>
+            <Text size="xs" c="gray">
+              GCS {planet.transactions.currencies?.GCS.sum}
+            </Text>
+            <Text size="xs" c="gray" mt="xs">
               {planet.transactions?.length}{' '}
-              {`transaction${planet.transactions?.length !== 1 ? 's' : ''}`}
+              {`transaction${planet.transactions.length !== 1 ? 's' : ''}`}
             </Text>
             <Text size="xs" fw={700}>
-              $ {planet.transactions?.sum}
+              $ {planet.transactions.sum}
             </Text>
           </>
         )}
