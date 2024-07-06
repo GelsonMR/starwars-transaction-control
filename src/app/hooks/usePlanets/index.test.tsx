@@ -12,16 +12,16 @@ describe('usePlanets hook', () => {
 
   afterAll(() => server.shutdown());
 
-  test('fetches and sorts planets alphabetically', async () => {
+  test('fetches and sorts planets by transaction length', async () => {
     const { result } = renderHook(() => usePlanets());
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(result.current.data?.[0].name).toEqual('Alderaan');
+    expect(result.current.data?.[0].name).toEqual('Tatooine');
     expect(result.current.data?.[result.current.data.length - 1].name).toEqual(
-      'Zolan',
+      'Yavin IV',
     );
   });
 
