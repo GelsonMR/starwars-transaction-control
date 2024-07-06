@@ -16,10 +16,9 @@ export const BlockTransactionsButton = ({
     <>
       <Modal
         opened={opened}
-        onClose={() => {
-          if (!disableActions) close();
-        }}
+        onClose={close}
         withCloseButton={false}
+        closeOnClickOutside={false}
         centered
         w={400}
       >

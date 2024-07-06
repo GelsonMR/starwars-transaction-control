@@ -1,14 +1,28 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { DashboardPage } from '.';
 import { render } from '../../utils/test';
+import { makeServer } from '../../../server';
+import { Server } from 'miragejs';
 
 describe('DashboardPage component', () => {
-  test('renders default title', () => {
+  let server: Server;
+
+  beforeAll(() => {
+    server = makeServer();
+  });
+
+  afterAll(() => server.shutdown());
+
+  test('change the selected planet', async () => {
     render(<DashboardPage />);
 
-    const title = screen.getByText(/Coruscant's bank transaction control/i);
+    const planetCard = (await screen.findAllByText(/Tatooine/i))[0];
 
-    expect(title).toBeInTheDocument();
+    fireEvent.click(planetCard);
+
+    const transactionLines = await screen.findAllByRole('row');
+
+    expect(transactionLines).toHaveLength(20);
   });
 });

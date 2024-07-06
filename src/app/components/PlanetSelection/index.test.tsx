@@ -43,4 +43,20 @@ describe('PlanetSelection component', () => {
 
     expect(onChange).toHaveBeenCalledWith(undefined);
   });
+
+  test('filters planets', () => {
+    render(<PlanetSelection />);
+
+    fireEvent.change(screen.getByPlaceholderText(/Search planet/i), {
+      target: {
+        value: 'Tatooine',
+      },
+    });
+
+    const allPlanetsCard = screen.queryByText(/All planets/i);
+    expect(allPlanetsCard).not.toBeInTheDocument();
+
+    const planetCard = screen.getByText(/Tatooine/i);
+    expect(planetCard).toBeInTheDocument();
+  });
 });

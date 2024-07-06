@@ -29,4 +29,26 @@ describe('BlockTransactionsButton component', () => {
 
     expect(onBlock).toBeCalled();
   });
+
+  test('disables dialog buttons', async () => {
+    const onBlock = jest.fn();
+    render(
+      <BlockTransactionsButton
+        disableActions={true}
+        planetName="Tatooine"
+        onBlock={onBlock}
+      />,
+    );
+
+    const blockButton = await screen.findByText(
+      /Block transactions of "Tatooine"/i,
+    );
+    fireEvent.click(blockButton);
+
+    const neverMindButton = await screen.findByRole('button', {
+      name: /Nevermind/i,
+    });
+
+    expect(neverMindButton).toBeDisabled();
+  });
 });

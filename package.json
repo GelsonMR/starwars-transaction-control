@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,6 +41,10 @@
     ]
   },
   "jest": {
+    "coveragePathIgnorePatterns": [
+      ".server.ts",
+      "/src/index.tsx"
+    ],
     "moduleNameMapper": {
       ".(css)$": "identity-obj-proxy",
       "^axios$": "axios/dist/node/axios.cjs"
