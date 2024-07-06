@@ -1,26 +1,13 @@
-import {
-  Affix,
-  Button,
-  Card,
-  Flex,
-  Group,
-  Loader,
-  Modal,
-  Select,
-  Table,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Card, Flex, Loader, Select, Table, Title } from '@mantine/core';
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
 import { Currency, TransactionStatus } from '../../types';
 import { TransactionsListProps, TransactionStatusLabel } from './types';
 import { toLocaleDate } from '../../utils';
-import { useDisclosure } from '@mantine/hooks';
+import { BlockTransactionsButton } from '../BlockTransactionsButton';
 
 export const TransactionsList = ({ planet }: TransactionsListProps) => {
-  const [opened, { open, close }] = useDisclosure(false);
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
@@ -31,7 +18,6 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
     status,
     onMutationSuccess: () => {
       refetch();
-      close();
     },
   });
 
@@ -120,49 +106,11 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
         </Title>
       )}
       {!!(planet && status === 'inProgress' && data?.length) && (
-        <>
-          <Modal
-            opened={opened}
-            onClose={() => {
-              if (!mutation.isPending) close();
-            }}
-            withCloseButton={false}
-            centered
-            w={400}
-          >
-            <Title order={3} mb="sm">
-              Block all transactions in progress of "{planet.name}"?
-            </Title>
-            <Text color="gray">
-              This is irreversible, only use it in case of iminent planet
-              uprisings and report to your superior.
-            </Text>
-            <Group justify="right" mt="xl">
-              <Button
-                variant="transparent"
-                color="text"
-                onClick={close}
-                disabled={mutation.isPending}
-              >
-                Nevermind
-              </Button>
-              <Button
-                bg="red"
-                onClick={() => handleBlockTransactions(planet.id)}
-                disabled={mutation.isPending}
-              >
-                Block transactions
-              </Button>
-            </Group>
-          </Modal>
-          {!opened && (
-            <Affix position={{ bottom: 20, right: 20 }}>
-              <Button bg="red" onClick={open}>
-                Block transactions of "{planet.name}"
-              </Button>
-            </Affix>
-          )}
-        </>
+        <BlockTransactionsButton
+          planetName={planet.name}
+          disableActions={mutation.isPending}
+          onBlock={async () => await handleBlockTransactions(planet.id)}
+        />
       )}
     </Flex>
   );
