@@ -79,7 +79,22 @@ describe('useTransactions hook', () => {
       ...new Set(result.current.data?.map(({ currency }) => currency)),
     ];
 
-    expect(listedStatus[0]).not.toBe('GCS');
+    expect(listedStatus).toHaveLength(1);
     expect(listedStatus[0]).toBe('ICS');
+  });
+
+  test('return only transactions from planet 1', async () => {
+    const { result } = renderHook(() => useTransactions({ planetId: '1' }));
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    const listedPlanets = [
+      ...new Set(result.current.data?.map(({ planet }) => planet?.id)),
+    ];
+
+    expect(listedPlanets).toHaveLength(1);
+    expect(listedPlanets[0]).toBe('1');
   });
 });

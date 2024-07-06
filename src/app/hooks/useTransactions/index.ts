@@ -2,16 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import { getTransactions } from '../../services';
 import { UseTransactionsOptions } from './types';
 import { Transaction } from '../../types';
+import { usePlanets } from '../usePlanets';
 
 export const useTransactions = ({
+  planetId,
   currency,
   minDate,
   status,
 }: UseTransactionsOptions = {}) => {
-  const query = useQuery({
+  const transactionsQuery = useQuery({
     queryKey: ['transactions'],
     queryFn: getTransactions,
   });
+  const planetsQuery = usePlanets();
 
   const sortChronologically = (list: Transaction[]) =>
     list.sort(({ date: dateA }, { date: dateB }) => {
@@ -32,17 +35,36 @@ export const useTransactions = ({
       ? list
       : list.filter(({ currency: tCurrency }) => currency === tCurrency);
 
+  const getPlanetByUser = (userId: string) =>
+    planetsQuery.data?.[
+      planetsQuery.data.findIndex(({ residents }) => residents.includes(userId))
+    ];
+
+  const mapAddingPlanetToTransactions = (list: Transaction[]) =>
+    list?.map((transaction) => {
+      const planet = getPlanetByUser(transaction.user.toString());
+      return {
+        ...transaction,
+        planet,
+      };
+    });
+
+  const filterByPlanet = (list: Transaction[]) =>
+    !planetId ? list : list.filter(({ planet }) => planet?.id === planetId);
+
   const finalList =
-    query.data &&
+    transactionsQuery.data &&
     [
       sortChronologically,
       filterByMinDate,
       filterByStatus,
       filterByCurrency,
-    ].reduce((acc, func) => func(acc), [...query.data]);
+      mapAddingPlanetToTransactions,
+      filterByPlanet,
+    ].reduce((acc, func) => func(acc), [...transactionsQuery.data]);
 
   return {
-    ...query,
+    ...transactionsQuery,
     data: finalList,
   };
 };
