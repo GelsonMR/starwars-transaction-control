@@ -20,8 +20,6 @@ npm start
 
 Now, access [http://localhost:3000](http://localhost:3000) in your browser.
 
-That's it, please enjoy!
-
 ### Testing
 
 To run the tests and check the coverage, run the following command:
@@ -40,7 +38,7 @@ npm run test -- --coverage
 
 2. **Planetary ranking:**
 
-   The planets list, ranks each one by the number of transactions made, so the first ones are the ones with most transactions. And at the bottom of each card we can check the total amount on those transactions.
+   The planets list ranks each one by the number of transactions made, so the first ones are the ones with most transactions. And at the bottom of each card we can check the total amount on those transactions.
 
    ![Planets list](screenshots/image-2.png)
 
@@ -64,3 +62,7 @@ npm run test -- --coverage
    - Feel the joy of bringing peace across the galaxy
 
      ![Successful alert](screenshots/image-6.png)
+
+```
+May the force be with you!
+```
