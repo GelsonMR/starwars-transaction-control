@@ -9,6 +9,7 @@ export interface Transaction {
   currency: Currency;
   date: string;
   status: TransactionStatus;
+  planet?: Planet;
 }
 
 export interface Planet {

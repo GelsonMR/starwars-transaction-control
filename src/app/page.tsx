@@ -13,7 +13,7 @@ const App = () => {
           setPlanetId(planet?.id);
         }}
       />
-      <TransactionsList />
+      <TransactionsList planetId={planetId} />
     </Providers>
   );
 };

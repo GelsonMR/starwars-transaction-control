@@ -10,13 +10,15 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
 import { Currency, TransactionStatus } from '../../types';
-import { TransactionStatusLabel } from './types';
+import { TransactionsListProps, TransactionStatusLabel } from './types';
+import { toLocaleDate } from '../../utils';
 
-export const TransactionsList = () => {
+export const TransactionsList = ({ planetId }: TransactionsListProps) => {
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 31));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
   const { data, isFetching, isError } = useTransactions({
+    planetId,
     currency,
     minDate: date,
     status,
@@ -73,6 +75,7 @@ export const TransactionsList = () => {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>User</Table.Th>
+              <Table.Th>Planet</Table.Th>
               <Table.Th>Amount</Table.Th>
               <Table.Th>Currency</Table.Th>
               <Table.Th>Date</Table.Th>
@@ -88,9 +91,10 @@ export const TransactionsList = () => {
             {data?.map((transaction) => (
               <Table.Tr key={transaction.id}>
                 <Table.Td>{transaction.user}</Table.Td>
+                <Table.Td>{transaction.planet?.name}</Table.Td>
                 <Table.Td>{transaction.amount}</Table.Td>
                 <Table.Td>{transaction.currency}</Table.Td>
-                <Table.Td>{transaction.date}</Table.Td>
+                <Table.Td>{toLocaleDate(transaction.date)}</Table.Td>
                 <Table.Td>
                   {TransactionStatusLabel[transaction.status]}
                 </Table.Td>
@@ -99,7 +103,11 @@ export const TransactionsList = () => {
           </Table.Tbody>
         </Table>
       </Card>
-      {isError && <h2>Failed to load transactions</h2>}
+      {isError && (
+        <Title order={2} m="xl">
+          Failed to load transactions
+        </Title>
+      )}
     </Flex>
   );
 };
