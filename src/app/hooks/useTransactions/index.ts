@@ -80,7 +80,11 @@ export const useTransactions = ({
         );
         return await updateTransactions(validTransactions, 'blocked');
       }),
-    onSuccess: onMutationSuccess,
+    onSuccess: () => {
+      onMutationSuccess?.();
+      transactionsQuery.refetch();
+      planetsQuery.refetch();
+    },
   });
 
   return {

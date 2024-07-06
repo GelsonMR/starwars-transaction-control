@@ -13,13 +13,12 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
-  const { data, isFetching, isError, mutation, refetch } = useTransactions({
+  const { data, isFetching, isError, mutation } = useTransactions({
     planetId: planet?.id,
     currency,
     minDate: date,
     status,
     onMutationSuccess: () => {
-      refetch();
       open();
     },
   });
