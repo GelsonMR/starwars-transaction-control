@@ -58,7 +58,7 @@ Your task is to design the foundation of a user interface capable of identifying
 
 2. **Planetary ranking:**
 
-   - [ ] From the transactions filtered previously, order the planets based on the total number of transactions, from the highest to the lowest. Furthermore, please provide the sum of all transaction amounts filtered previously for all planets.
+   - [x] From the transactions filtered previously, order the planets based on the total number of transactions, from the highest to the lowest. Furthermore, please provide the sum of all transaction amounts filtered previously for all planets.
 
 3. **Cumulative transaction values:**
 
