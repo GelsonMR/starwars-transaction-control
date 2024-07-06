@@ -51,4 +51,20 @@ describe('useTransactions hook', () => {
 
     expect(result.current.data).toHaveLength(0);
   });
+
+  test('return only transactions in progress', async () => {
+    const { result } = renderHook(() =>
+      useTransactions({ status: 'inProgress' }),
+    );
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    const listedStatus = [
+      ...new Set(result.current.data?.map(({ status }) => status)),
+    ];
+
+    expect(listedStatus[0]).toBe('inProgress');
+  });
 });

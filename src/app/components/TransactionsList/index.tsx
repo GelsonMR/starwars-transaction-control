@@ -4,11 +4,13 @@ import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
 
 export const TransactionsList = () => {
-  const [date, setDate] = useState<DateValue>(new Date(2023, 11, 31));
-  const { data, isFetching, isError } = useTransactions({ minDate: date });
+  const [date, setDate] = useState<DateValue>(new Date(2024, 0, 31));
+  const { data, isFetching, isError } = useTransactions({
+    minDate: date,
+    status: 'inProgress',
+  });
 
   const handleDateChange = (value: DateValue) => {
-    console.log(value);
     setDate(value);
   };
 
