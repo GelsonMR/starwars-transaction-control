@@ -51,21 +51,21 @@ Your task is to design the foundation of a user interface capable of identifying
 
 1. **Transaction filtering:**
 
-   - For each planet, using all users' homeworld as a reference for transaction sources, filter transactions:
-     - After a specified date.
-     - With a status marked as `inProgress`.
-     - Executed in the ICS ("Imperial Crown Standard") currency.
+   - [x] For each planet, using all users' homeworld as a reference for transaction sources, filter transactions:
+     - [x] After a specified date.
+     - [x] With a status marked as `inProgress`.
+     - [x] Executed in the ICS ("Imperial Crown Standard") currency.
 
 2. **Planetary ranking:**
 
-   - From the transactions filtered previously, order the planets based on the total number of transactions, from the highest to the lowest. Furthermore, please provide the sum of all transaction amounts filtered previously for all planets.
+   - [ ] From the transactions filtered previously, order the planets based on the total number of transactions, from the highest to the lowest. Furthermore, please provide the sum of all transaction amounts filtered previously for all planets.
 
 3. **Cumulative transaction values:**
 
-   - From the ordered list of planets, provide real-time cumulative values for all transactions in both ICS ("Imperial Crown Standard") and GCS ("Galactic Credit Standard") for each planet individually.
+   - [ ] From the ordered list of planets, provide real-time cumulative values for all transactions in both ICS ("Imperial Crown Standard") and GCS ("Galactic Credit Standard") for each planet individually.
 
 4. **Security measures:**
-   - Implement a solution capable of turning all transactions with a status of `inProgress` for a given planet to `blocked` using a planet ID. This security measure is essential to prevent potential bad actors from exploiting the financial system and transferring funds to the Empire.
+   - [ ] Implement a solution capable of turning all transactions with a status of `inProgress` for a given planet to `blocked` using a planet ID. This security measure is essential to prevent potential bad actors from exploiting the financial system and transferring funds to the Empire.
 
 ### Technical requirements
 
