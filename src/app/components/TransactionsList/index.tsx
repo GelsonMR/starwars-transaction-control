@@ -1,11 +1,4 @@
-import {
-  Card,
-  Flex,
-  LoadingOverlay,
-  Select,
-  Table,
-  Title,
-} from '@mantine/core';
+import { Card, Flex, Loader, Select, Table, Title } from '@mantine/core';
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
@@ -41,7 +34,9 @@ export const TransactionsList = ({ planetId }: TransactionsListProps) => {
   return (
     <Flex direction="column" px="xl" pb="xl">
       <Flex mb="lg" align="end" gap="md">
-        <Title mr="auto">Transactions</Title>
+        <Title mr="auto">
+          Transactions {isFetching && <Loader size="sm" ml="sm" />}
+        </Title>
         <Select
           w={140}
           label="Currency"
@@ -65,11 +60,6 @@ export const TransactionsList = ({ planetId }: TransactionsListProps) => {
           onChange={(value: DateValue) => setDate(value)}
         />
       </Flex>
-      <LoadingOverlay
-        visible={isFetching}
-        zIndex={1000}
-        overlayProps={{ radius: 'sm', blur: 2 }}
-      />
       <Card withBorder p={0}>
         <Table stickyHeader>
           <Table.Thead>

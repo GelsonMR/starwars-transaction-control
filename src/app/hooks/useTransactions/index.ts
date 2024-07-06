@@ -9,15 +9,18 @@ export const useTransactions = ({
   minDate,
   status,
 }: UseTransactionsOptions = {}) => {
+  const refetchInterval = 5000;
   const [transactionsQuery, planetsQuery] = useQueries({
     queries: [
       {
         queryKey: ['transactions'],
         queryFn: getTransactions,
+        refetchInterval,
       },
       {
         queryKey: ['planets'],
         queryFn: getPlanets,
+        refetchInterval,
       },
     ],
   });

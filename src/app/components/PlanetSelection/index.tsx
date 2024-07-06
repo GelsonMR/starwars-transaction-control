@@ -1,11 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import {
-  Flex,
-  TextInput,
-  LoadingOverlay,
-  ScrollArea,
-  Title,
-} from '@mantine/core';
+import { Flex, TextInput, ScrollArea, Title, Loader } from '@mantine/core';
 import { Planet } from '../../types';
 import { PlanetCard } from '../PlanetCard';
 import { PlanetSelectionProps } from './types';
@@ -29,18 +23,15 @@ export const PlanetSelection = ({
   return (
     <Flex direction="column" py="xl">
       <Flex mx="xl">
-        <Title mr="auto">Planets</Title>
+        <Title mr="auto">
+          Planets {isFetching && <Loader size="sm" ml="sm" />}
+        </Title>
         <TextInput
           value={query}
           placeholder="Search planet"
           onChange={handleSearchChange}
         />
       </Flex>
-      <LoadingOverlay
-        visible={isFetching}
-        zIndex={1000}
-        overlayProps={{ radius: 'sm', blur: 2 }}
-      />
       {data && !data.length && (
         <Title order={2} m="xl">
           No planets found
