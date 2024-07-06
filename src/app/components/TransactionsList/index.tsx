@@ -14,7 +14,7 @@ import { TransactionsListProps, TransactionStatusLabel } from './types';
 import { toLocaleDate } from '../../utils';
 
 export const TransactionsList = ({ planetId }: TransactionsListProps) => {
-  const [date, setDate] = useState<DateValue>(new Date(2024, 0, 31));
+  const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
   const { data, isFetching, isError } = useTransactions({
