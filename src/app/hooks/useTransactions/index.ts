@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { getTransactions } from '../../services';
+import { useQueries } from '@tanstack/react-query';
+import { getPlanets, getTransactions } from '../../services';
 import { UseTransactionsOptions } from './types';
 import { Transaction } from '../../types';
-import { usePlanets } from '../usePlanets';
 
 export const useTransactions = ({
   planetId,
@@ -10,11 +9,18 @@ export const useTransactions = ({
   minDate,
   status,
 }: UseTransactionsOptions = {}) => {
-  const transactionsQuery = useQuery({
-    queryKey: ['transactions'],
-    queryFn: getTransactions,
+  const [transactionsQuery, planetsQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ['transactions'],
+        queryFn: getTransactions,
+      },
+      {
+        queryKey: ['planets'],
+        queryFn: getPlanets,
+      },
+    ],
   });
-  const planetsQuery = usePlanets();
 
   const sortChronologically = (list: Transaction[]) =>
     list.sort(({ date: dateA }, { date: dateB }) => {
