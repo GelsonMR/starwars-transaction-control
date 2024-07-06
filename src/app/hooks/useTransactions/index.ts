@@ -68,19 +68,18 @@ export const useTransactions = ({
   const finalTransactions = filteredTransactions?.sort(sortChronologically);
 
   const mutation = useMutation({
-    mutationFn: async (planetId: string) => {
-      if (!transactionsWithPlanets) {
-        return;
-      }
-      const validTransactions = transactionsWithPlanets.filter(
-        (transaction) => {
-          const isExpectedStatus = filterByStatus(transaction, 'inProgress');
-          const isExpectedPlanet = filterByPlanet(transaction, planetId);
-          return isExpectedStatus && isExpectedPlanet;
-        },
-      );
-      return await updateTransactions(validTransactions, 'blocked');
-    },
+    mutationFn:
+      transactionsWithPlanets &&
+      (async (planetId: string) => {
+        const validTransactions = transactionsWithPlanets.filter(
+          (transaction) => {
+            const isExpectedStatus = filterByStatus(transaction, 'inProgress');
+            const isExpectedPlanet = filterByPlanet(transaction, planetId);
+            return isExpectedStatus && isExpectedPlanet;
+          },
+        );
+        return await updateTransactions(validTransactions, 'blocked');
+      }),
     onSuccess: onMutationSuccess,
   });
 

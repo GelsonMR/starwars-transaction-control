@@ -11,18 +11,14 @@ export const updateTransactions = (
   transactions: Transaction[],
   status: TransactionStatus,
 ) => {
-  api
-    .put('/transactions/update-batch', {
-      transactions: transactions.map(
-        ({ id, user, amount, currency, date }) => ({
-          id,
-          user,
-          amount,
-          currency,
-          date,
-          status,
-        }),
-      ),
-    })
-    .then((response) => response.data.transactions);
+  api.put('/transactions/update-batch', {
+    transactions: transactions.map(({ id, user, amount, currency, date }) => ({
+      id,
+      user,
+      amount,
+      currency,
+      date,
+      status,
+    })),
+  });
 };
