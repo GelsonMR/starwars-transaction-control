@@ -6,4 +6,5 @@ export interface UseTransactionsOptions {
   currency?: Currency;
   minDate?: DateValue;
   status?: TransactionStatus;
+  onMutationSuccess?: () => void;
 }

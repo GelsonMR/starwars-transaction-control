@@ -1,5 +1,9 @@
-import { useQueries } from '@tanstack/react-query';
-import { getPlanets, getTransactions } from '../../services';
+import { useMutation, useQueries } from '@tanstack/react-query';
+import {
+  getPlanets,
+  getTransactions,
+  updateTransactions,
+} from '../../services';
 import { UseTransactionsOptions } from './types';
 import {
   filterByCurrency,
@@ -15,6 +19,7 @@ export const useTransactions = ({
   currency,
   minDate,
   status,
+  onMutationSuccess,
 }: UseTransactionsOptions = {}) => {
   const refetchInterval = 5000;
   const [transactionsQuery, planetsQuery] = useQueries({
@@ -62,8 +67,26 @@ export const useTransactions = ({
 
   const finalTransactions = filteredTransactions?.sort(sortChronologically);
 
+  const mutation = useMutation({
+    mutationFn: async (planetId: string) => {
+      if (!transactionsWithPlanets) {
+        return;
+      }
+      const validTransactions = transactionsWithPlanets.filter(
+        (transaction) => {
+          const isExpectedStatus = filterByStatus(transaction, 'inProgress');
+          const isExpectedPlanet = filterByPlanet(transaction, planetId);
+          return isExpectedStatus && isExpectedPlanet;
+        },
+      );
+      return await updateTransactions(validTransactions, 'blocked');
+    },
+    onSuccess: onMutationSuccess,
+  });
+
   return {
     ...transactionsQuery,
     data: finalTransactions,
+    mutation,
   };
 };

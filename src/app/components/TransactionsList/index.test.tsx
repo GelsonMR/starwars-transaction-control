@@ -72,4 +72,41 @@ describe('TransactionsList component', () => {
     expect(table).toHaveTextContent('ICS');
     expect(table).toHaveTextContent('GCS');
   });
+
+  test('successfully blocks all planet transactions', async () => {
+    const planetMock = {
+      name: 'Tatooine',
+      rotation_period: '',
+      orbital_period: '',
+      diameter: '',
+      climate: '',
+      gravity: '',
+      terrain: '',
+      surface_water: '',
+      population: '',
+      residents: [''],
+      films: [''],
+      created: '',
+      edited: '',
+      id: '1',
+    };
+
+    render(<TransactionsList planet={planetMock} />);
+
+    const table = screen.getByRole('table');
+    expect(table).toHaveTextContent('In progress');
+
+    const blockButton = await screen.findByText(
+      /Block transactions of "Tatooine"/i,
+    );
+    fireEvent.click(blockButton);
+
+    const blockButtonConfirmation =
+      await screen.findByText(/Block transactions/i);
+    fireEvent.click(blockButtonConfirmation);
+
+    const noTransactionsMessage = await screen.findByText(/No transactions/i);
+
+    expect(noTransactionsMessage).toBeInTheDocument();
+  });
 });

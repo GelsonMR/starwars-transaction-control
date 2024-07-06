@@ -97,4 +97,19 @@ describe('useTransactions hook', () => {
     expect(listedPlanets).toHaveLength(1);
     expect(listedPlanets[0]).toBe('1');
   });
+
+  test('successfully mutate planet transactions', async () => {
+    const onMutationSuccess = jest.fn();
+    const { result } = renderHook(() =>
+      useTransactions({ planetId: '1', onMutationSuccess }),
+    );
+
+    result.current.mutation.mutate('1');
+
+    await waitFor(() => {
+      expect(result.current.mutation.isSuccess).toBe(true);
+    });
+
+    expect(onMutationSuccess).toHaveBeenCalled();
+  });
 });
