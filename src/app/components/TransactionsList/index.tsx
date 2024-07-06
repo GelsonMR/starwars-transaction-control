@@ -1,13 +1,15 @@
-import { Card, Flex, Loader, Select, Table, Title } from '@mantine/core';
+import { Alert, Card, Flex, Loader, Select, Table, Title } from '@mantine/core';
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Currency, TransactionStatus } from '../../types';
 import { TransactionsListProps, TransactionStatusLabel } from './types';
 import { toLocaleDate } from '../../utils';
 import { BlockTransactionsButton } from '../BlockTransactionsButton';
+import { useDisclosure } from '@mantine/hooks';
 
 export const TransactionsList = ({ planet }: TransactionsListProps) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
@@ -18,6 +20,7 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
     status,
     onMutationSuccess: () => {
       refetch();
+      open();
     },
   });
 
@@ -37,6 +40,8 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
     { value: 'ICS', label: 'ICS' },
     { value: 'GCS', label: 'GCS' },
   ];
+
+  useEffect(() => close(), [close, planet]);
 
   return (
     <Flex direction="column" px="xl" pb="xl">
@@ -111,6 +116,22 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
           disableActions={mutation.isPending}
           onBlock={async () => await handleBlockTransactions(planet.id)}
         />
+      )}
+      {opened && (
+        <Alert
+          variant="filled"
+          color="blue"
+          title="Thank you for your service!"
+          icon="🫡"
+          withCloseButton
+          pos="fixed"
+          inset="20px 20px auto auto"
+          w={400}
+          onClose={close}
+        >
+          Your efforts help on bringing peace across the universe, may the force
+          be with you!
+        </Alert>
       )}
     </Flex>
   );

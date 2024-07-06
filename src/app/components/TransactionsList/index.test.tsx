@@ -108,5 +108,11 @@ describe('TransactionsList component', () => {
     const noTransactionsMessage = await screen.findByText(/No transactions/i);
 
     expect(noTransactionsMessage).toBeInTheDocument();
+
+    const thankYouMessage = await screen.findByText(
+      /Thank you for your service!/i,
+    );
+
+    expect(thankYouMessage).toBeInTheDocument();
   });
 });
