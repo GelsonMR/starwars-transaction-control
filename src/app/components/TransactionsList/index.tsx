@@ -6,12 +6,12 @@ import { Currency, TransactionStatus } from '../../types';
 import { TransactionsListProps, TransactionStatusLabel } from './types';
 import { toLocaleDate } from '../../utils';
 
-export const TransactionsList = ({ planetId }: TransactionsListProps) => {
+export const TransactionsList = ({ planet }: TransactionsListProps) => {
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const [currency, setCurrency] = useState<Currency>('ICS');
   const { data, isFetching, isError } = useTransactions({
-    planetId,
+    planetId: planet?.id,
     currency,
     minDate: date,
     status,

@@ -1,7 +1,7 @@
-import { TransactionStatus } from '../../types';
+import { Planet, TransactionStatus } from '../../types';
 
 export interface TransactionsListProps {
-  planetId?: string;
+  planet?: Planet;
 }
 
 export const TransactionStatusLabel: Record<TransactionStatus, string> = {

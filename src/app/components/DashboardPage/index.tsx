@@ -2,21 +2,22 @@ import { useState } from 'react';
 import { PlanetSelection } from '../PlanetSelection';
 import { TransactionsList } from '../TransactionsList';
 import { Title } from '@mantine/core';
+import { Planet } from '../../types';
 
 export const DashboardPage = () => {
-  const [planetId, setPlanetId] = useState<string>();
+  const [planet, setPlanet] = useState<Planet>();
   return (
     <>
       <Title mt="xl" mx="xl">
         Coruscan's bank transaction control
       </Title>
       <PlanetSelection
-        selected={planetId}
+        selected={planet?.id}
         onChange={(planet) => {
-          setPlanetId(planet?.id);
+          setPlanet(planet);
         }}
       />
-      <TransactionsList planetId={planetId} />
+      <TransactionsList planet={planet} />
     </>
   );
 };
