@@ -10,11 +10,12 @@ export const PlanetCard = ({
   return (
     <CardContainer $selected={selected} {...props}>
       <Flex direction="column" p="xs" h="100%">
-        <Text fw={700} mb="auto">
-          {planet?.name || 'All planets'}
-        </Text>
+        <Text fw={700}>{planet?.name || 'All planets'}</Text>
         {planet?.transactions && (
           <>
+            <Text size="xs" c="gray" mb="auto">
+              ID: {planet.id}
+            </Text>
             <Text size="xs" c="gray">
               ICS {planet.transactions.currencies?.ICS.sum}
             </Text>

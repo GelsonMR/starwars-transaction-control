@@ -18,7 +18,7 @@ describe('PlanetCard component', () => {
     films: [''],
     created: '',
     edited: '',
-    id: '',
+    id: '1',
     transactions: {
       currencies: {
         ICS: {
@@ -42,12 +42,14 @@ describe('PlanetCard component', () => {
     expect(title).toBeInTheDocument();
   });
 
-  test('renders planet name', () => {
+  test('renders planet name and ID', () => {
     render(<PlanetCard planet={planetMock} />);
 
     const title = screen.getByText(/Tatooine/i);
+    const id = screen.getByText(/ID: 1/i);
 
     expect(title).toBeInTheDocument();
+    expect(id).toBeInTheDocument();
   });
 
   test('renders planet transaction info', () => {
