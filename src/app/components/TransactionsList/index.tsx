@@ -1,27 +1,50 @@
-import { Card, Flex, LoadingOverlay, Table, Title } from '@mantine/core';
+import {
+  Card,
+  Flex,
+  LoadingOverlay,
+  Select,
+  Table,
+  Title,
+} from '@mantine/core';
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
+import { TransactionStatus } from '../../types';
+import { TransactionStatusLabel } from './types';
 
 export const TransactionsList = () => {
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 31));
+  const [status, setStatus] = useState<TransactionStatus>('inProgress');
   const { data, isFetching, isError } = useTransactions({
     minDate: date,
-    status: 'inProgress',
+    status,
   });
 
-  const handleDateChange = (value: DateValue) => {
-    setDate(value);
-  };
+  const statusSelectList = [
+    { value: '', label: 'All status' },
+    ...Object.keys(TransactionStatusLabel).map((key) => ({
+      value: key,
+      label: TransactionStatusLabel[key as TransactionStatus],
+    })),
+  ];
 
   return (
     <Flex direction="column" px="xl" pb="xl">
       <Flex mb="lg" align="end" gap="md">
         <Title mr="auto">Transactions</Title>
+        <Select
+          label="Status"
+          name="status"
+          placeholder="All status"
+          value={status}
+          data={statusSelectList}
+          allowDeselect={false}
+          onChange={(value) => setStatus(value as TransactionStatus)}
+        />
         <DateInput
           label="Only after date"
           value={date}
-          onChange={handleDateChange}
+          onChange={(value: DateValue) => setDate(value)}
         />
       </Flex>
       <LoadingOverlay
@@ -50,7 +73,9 @@ export const TransactionsList = () => {
                 <Table.Td>{transaction.amount}</Table.Td>
                 <Table.Td>{transaction.currency}</Table.Td>
                 <Table.Td>{transaction.date}</Table.Td>
-                <Table.Td>{transaction.status}</Table.Td>
+                <Table.Td>
+                  {TransactionStatusLabel[transaction.status]}
+                </Table.Td>
               </Table.Tr>
             ))}
           </Table.Tbody>

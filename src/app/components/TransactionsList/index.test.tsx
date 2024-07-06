@@ -35,4 +35,21 @@ describe('TransactionsList component', () => {
 
     expect(noTransactionsMessage).toBeInTheDocument();
   });
+
+  test('show only transactions in progress', async () => {
+    render(<TransactionsList />);
+
+    const table = screen.getByRole('table');
+    await expect(table).toHaveTextContent('In progress');
+  });
+
+  test('show only blocked transactions', async () => {
+    render(<TransactionsList />);
+    fireEvent.click(screen.getByRole('textbox', { name: 'Status' }));
+
+    fireEvent.click(screen.getByRole('option', { name: 'Blocked' }));
+
+    const table = screen.getByRole('table');
+    await expect(table).toHaveTextContent('Blocked');
+  });
 });

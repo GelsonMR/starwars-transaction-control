@@ -1,10 +1,12 @@
+export type TransactionStatus = 'inProgress' | 'completed' | 'blocked';
+
 export interface Transaction {
   id: string;
   user: string;
   amount: number;
   currency: string;
   date: string;
-  status: string;
+  status: TransactionStatus;
 }
 
 export interface Planet {
