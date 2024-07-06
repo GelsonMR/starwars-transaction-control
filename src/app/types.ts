@@ -27,4 +27,8 @@ export interface Planet {
   created: string;
   edited: string;
   id: string;
+  transactions?: {
+    sum: number;
+    length: number;
+  };
 }
