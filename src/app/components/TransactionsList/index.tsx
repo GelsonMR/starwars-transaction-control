@@ -9,13 +9,15 @@ import {
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useState } from 'react';
-import { TransactionStatus } from '../../types';
+import { Currency, TransactionStatus } from '../../types';
 import { TransactionStatusLabel } from './types';
 
 export const TransactionsList = () => {
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 31));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
+  const [currency, setCurrency] = useState<Currency>('ICS');
   const { data, isFetching, isError } = useTransactions({
+    currency,
     minDate: date,
     status,
   });
@@ -28,20 +30,34 @@ export const TransactionsList = () => {
     })),
   ];
 
+  const currencyList = [
+    { value: '', label: 'All currencies' },
+    { value: 'ICS', label: 'ICS' },
+    { value: 'GCS', label: 'GCS' },
+  ];
+
   return (
     <Flex direction="column" px="xl" pb="xl">
       <Flex mb="lg" align="end" gap="md">
         <Title mr="auto">Transactions</Title>
         <Select
+          w={140}
+          label="Currency"
+          value={currency}
+          data={currencyList}
+          allowDeselect={false}
+          onChange={(value) => setCurrency(value as Currency)}
+        />
+        <Select
+          w={140}
           label="Status"
-          name="status"
-          placeholder="All status"
           value={status}
           data={statusSelectList}
           allowDeselect={false}
           onChange={(value) => setStatus(value as TransactionStatus)}
         />
         <DateInput
+          w={160}
           label="Only after date"
           value={date}
           onChange={(value: DateValue) => setDate(value)}
@@ -55,11 +71,13 @@ export const TransactionsList = () => {
       <Card withBorder p={0}>
         <Table stickyHeader>
           <Table.Thead>
-            <Table.Th>User</Table.Th>
-            <Table.Th>Amount</Table.Th>
-            <Table.Th>Currency</Table.Th>
-            <Table.Th>Date</Table.Th>
-            <Table.Th>Status</Table.Th>
+            <Table.Tr>
+              <Table.Th>User</Table.Th>
+              <Table.Th>Amount</Table.Th>
+              <Table.Th>Currency</Table.Th>
+              <Table.Th>Date</Table.Th>
+              <Table.Th>Status</Table.Th>
+            </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {data && !data.length && (

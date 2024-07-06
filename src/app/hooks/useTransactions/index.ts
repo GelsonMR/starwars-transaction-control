@@ -4,6 +4,7 @@ import { UseTransactionsOptions } from './types';
 import { Transaction } from '../../types';
 
 export const useTransactions = ({
+  currency,
   minDate,
   status,
 }: UseTransactionsOptions = {}) => {
@@ -26,12 +27,19 @@ export const useTransactions = ({
   const filterByStatus = (list: Transaction[]) =>
     !status ? list : list.filter(({ status: tStatus }) => status === tStatus);
 
+  const filterByCurrency = (list: Transaction[]) =>
+    !currency
+      ? list
+      : list.filter(({ currency: tCurrency }) => currency === tCurrency);
+
   const finalList =
     query.data &&
-    [sortChronologically, filterByMinDate, filterByStatus].reduce(
-      (acc, func) => func(acc),
-      [...query.data],
-    );
+    [
+      sortChronologically,
+      filterByMinDate,
+      filterByStatus,
+      filterByCurrency,
+    ].reduce((acc, func) => func(acc), [...query.data]);
 
   return {
     ...query,

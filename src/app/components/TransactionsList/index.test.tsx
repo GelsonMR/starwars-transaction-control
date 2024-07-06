@@ -40,7 +40,7 @@ describe('TransactionsList component', () => {
     render(<TransactionsList />);
 
     const table = screen.getByRole('table');
-    await expect(table).toHaveTextContent('In progress');
+    expect(table).toHaveTextContent('In progress');
   });
 
   test('show only blocked transactions', async () => {
@@ -50,6 +50,26 @@ describe('TransactionsList component', () => {
     fireEvent.click(screen.getByRole('option', { name: 'Blocked' }));
 
     const table = screen.getByRole('table');
-    await expect(table).toHaveTextContent('Blocked');
+    expect(table).not.toHaveTextContent('In progress');
+    expect(table).toHaveTextContent('Blocked');
+  });
+
+  test('show only transactions in ICS currency', async () => {
+    render(<TransactionsList />);
+
+    const table = screen.getByRole('table');
+    expect(table).not.toHaveTextContent('GCS');
+    expect(table).toHaveTextContent('ICS');
+  });
+
+  test('show only transactions in all currencies', async () => {
+    render(<TransactionsList />);
+    fireEvent.click(screen.getByRole('textbox', { name: 'Currency' }));
+
+    fireEvent.click(screen.getByRole('option', { name: 'All currencies' }));
+
+    const table = screen.getByRole('table');
+    expect(table).toHaveTextContent('ICS');
+    expect(table).toHaveTextContent('GCS');
   });
 });

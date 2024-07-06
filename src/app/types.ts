@@ -1,10 +1,12 @@
 export type TransactionStatus = 'inProgress' | 'completed' | 'blocked';
 
+export type Currency = 'ICS' | 'GCS';
+
 export interface Transaction {
   id: string;
   user: string;
   amount: number;
-  currency: string;
+  currency: Currency;
   date: string;
   status: TransactionStatus;
 }

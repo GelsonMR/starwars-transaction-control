@@ -67,4 +67,19 @@ describe('useTransactions hook', () => {
 
     expect(listedStatus[0]).toBe('inProgress');
   });
+
+  test('return only transactions in ICS currency', async () => {
+    const { result } = renderHook(() => useTransactions({ currency: 'ICS' }));
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    const listedStatus = [
+      ...new Set(result.current.data?.map(({ currency }) => currency)),
+    ];
+
+    expect(listedStatus[0]).not.toBe('GCS');
+    expect(listedStatus[0]).toBe('ICS');
+  });
 });
