@@ -34,7 +34,7 @@ export const TransactionsList = ({ planetId }: TransactionsListProps) => {
   return (
     <Flex direction="column" px="xl" pb="xl">
       <Flex mb="lg" align="end" gap="md">
-        <Title mr="auto">
+        <Title order={2} mr="auto">
           Transactions {isFetching && <Loader size="sm" ml="sm" />}
         </Title>
         <Select
@@ -94,7 +94,7 @@ export const TransactionsList = ({ planetId }: TransactionsListProps) => {
         </Table>
       </Card>
       {isError && (
-        <Title order={2} m="xl">
+        <Title order={3} m="xl">
           Failed to load transactions
         </Title>
       )}

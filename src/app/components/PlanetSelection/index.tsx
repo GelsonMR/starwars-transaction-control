@@ -21,9 +21,9 @@ export const PlanetSelection = ({
   };
 
   return (
-    <Flex direction="column" py="xl">
+    <Flex direction="column" py="sm">
       <Flex mx="xl">
-        <Title mr="auto">
+        <Title order={2} mr="auto">
           Planets {isFetching && <Loader size="sm" ml="sm" />}
         </Title>
         <TextInput
@@ -33,7 +33,7 @@ export const PlanetSelection = ({
         />
       </Flex>
       {data && !data.length && (
-        <Title order={2} m="xl">
+        <Title order={3} m="xl">
           No planets found
         </Title>
       )}
@@ -58,7 +58,7 @@ export const PlanetSelection = ({
         </ScrollArea>
       )}
       {isError && (
-        <Title order={2} m="xl">
+        <Title order={3} m="xl">
           Failed to load planets
         </Title>
       )}

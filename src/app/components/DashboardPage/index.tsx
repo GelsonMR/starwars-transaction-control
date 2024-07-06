@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { Providers } from './utils/providers';
-import { PlanetSelection } from './components/PlanetSelection';
-import { TransactionsList } from './components/TransactionsList';
+import { PlanetSelection } from '../PlanetSelection';
+import { TransactionsList } from '../TransactionsList';
+import { Title } from '@mantine/core';
 
-const App = () => {
+export const DashboardPage = () => {
   const [planetId, setPlanetId] = useState<string>();
   return (
-    <Providers>
+    <>
+      <Title mt="xl" mx="xl">
+        Coruscan's bank transaction control
+      </Title>
       <PlanetSelection
         selected={planetId}
         onChange={(planet) => {
@@ -14,8 +17,6 @@ const App = () => {
         }}
       />
       <TransactionsList planetId={planetId} />
-    </Providers>
+    </>
   );
 };
-
-export default App;

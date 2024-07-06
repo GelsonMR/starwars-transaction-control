@@ -1,8 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProvidersType } from './types';
 import { createTheme, MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
 import { PropsWithChildren } from 'react';
 
 const buildProvidersTree = (componentsWithProps: Array<ProvidersType>) => {
