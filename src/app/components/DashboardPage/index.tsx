@@ -9,7 +9,7 @@ export const DashboardPage = () => {
   return (
     <>
       <Title mt="xl" mx="xl">
-        Coruscan's bank transaction control
+        Coruscant's bank transaction control
       </Title>
       <PlanetSelection
         selected={planet?.id}

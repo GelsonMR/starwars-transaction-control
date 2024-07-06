@@ -7,7 +7,7 @@ describe('DashboardPage component', () => {
   test('renders default title', () => {
     render(<DashboardPage />);
 
-    const title = screen.getByText(/Coruscan's bank transaction control/i);
+    const title = screen.getByText(/Coruscant's bank transaction control/i);
 
     expect(title).toBeInTheDocument();
   });
