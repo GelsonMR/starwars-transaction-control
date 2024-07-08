@@ -1,14 +1,27 @@
-import { Alert, Card, Flex, Loader, Select, Table, Title } from '@mantine/core';
+import {
+  Alert,
+  Badge,
+  Box,
+  Card,
+  Divider,
+  Flex,
+  Loader,
+  Select,
+  Table,
+  Text,
+  Title,
+} from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useTransactions } from '../../hooks/useTransactions';
 import { DateInput, DateValue } from '@mantine/dates';
 import { useEffect, useState } from 'react';
 import { Currency, TransactionStatus } from '../../types';
-import { TransactionsListProps, TransactionStatusLabel } from './types';
+import { TransactionsListProps, TransactionStatusDisplay } from './types';
 import { toLocaleDate } from '../../utils';
 import { BlockTransactionsButton } from '../BlockTransactionsButton';
-import { useDisclosure } from '@mantine/hooks';
 
 export const TransactionsList = ({ planet }: TransactionsListProps) => {
+  const isDesktop = useMediaQuery(`(min-width: 48em)`);
   const [opened, { open, close }] = useDisclosure(false);
   const [date, setDate] = useState<DateValue>(new Date(2024, 0, 1));
   const [status, setStatus] = useState<TransactionStatus>('inProgress');
@@ -28,9 +41,9 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
 
   const statusSelectList = [
     { value: '', label: 'All status' },
-    ...Object.keys(TransactionStatusLabel).map((key) => ({
+    ...Object.keys(TransactionStatusDisplay).map((key) => ({
       value: key,
-      label: TransactionStatusLabel[key as TransactionStatus],
+      label: TransactionStatusDisplay[key as TransactionStatus].label,
     })),
   ];
 
@@ -44,12 +57,12 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
 
   return (
     <Flex direction="column" px="xl" pb="xl">
-      <Flex mb="lg" align="end" gap="md">
+      <Flex mb="lg" gap="md" direction={{ base: 'column', sm: 'row' }}>
         <Title order={2} mr="auto">
           Transactions {isFetching && <Loader size="sm" ml="sm" />}
         </Title>
         <Select
-          w={140}
+          w={{ base: 'auto', sm: 140 }}
           label="Currency"
           value={currency}
           data={currencyList}
@@ -57,7 +70,7 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
           onChange={(value) => setCurrency(value as Currency)}
         />
         <Select
-          w={140}
+          w={{ base: 'auto', sm: 140 }}
           label="Status"
           value={status}
           data={statusSelectList}
@@ -65,44 +78,84 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
           onChange={(value) => setStatus(value as TransactionStatus)}
         />
         <DateInput
-          w={160}
+          w={{ base: 'auto', sm: 160 }}
           label="Only after date"
           value={date}
           onChange={(value: DateValue) => setDate(value)}
         />
       </Flex>
       <Card withBorder p={0}>
-        <Table stickyHeader>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>User</Table.Th>
-              <Table.Th>Planet</Table.Th>
-              <Table.Th>Amount</Table.Th>
-              <Table.Th>Currency</Table.Th>
-              <Table.Th>Date</Table.Th>
-              <Table.Th>Status</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {data && !data.length && (
-              <Table.Tr>
-                <Table.Td colSpan={5}>No transactions</Table.Td>
-              </Table.Tr>
-            )}
-            {data?.map((transaction) => (
-              <Table.Tr key={transaction.id}>
-                <Table.Td>{transaction.user}</Table.Td>
-                <Table.Td>{transaction.planet?.name}</Table.Td>
-                <Table.Td>{transaction.amount}</Table.Td>
-                <Table.Td>{transaction.currency}</Table.Td>
-                <Table.Td>{toLocaleDate(transaction.date)}</Table.Td>
-                <Table.Td>
-                  {TransactionStatusLabel[transaction.status]}
-                </Table.Td>
-              </Table.Tr>
+        {!isDesktop ? (
+          <Box data-testid="transactions-container">
+            {data && !data.length && <Text>No transactions</Text>}
+            {data?.map((transaction, index) => (
+              <Box key={transaction.id}>
+                {!!index && <Divider />}
+                <Box pos="relative" p="sm">
+                  <Flex>
+                    <Text mr="auto">User #{transaction.user}</Text>
+                    <Box ta="right">
+                      <Text size="xs" color="dark.2">
+                        {toLocaleDate(transaction.date)}
+                      </Text>
+                      {transaction.planet && (
+                        <Text size="xs" color="dark.2">
+                          at {transaction.planet.name}
+                        </Text>
+                      )}
+                    </Box>
+                  </Flex>
+                  <Text mt="xs">
+                    $ {transaction.amount} {transaction.currency}
+                  </Text>
+                  <Badge
+                    pos="absolute"
+                    inset="auto 16px 16px auto"
+                    color={TransactionStatusDisplay[transaction.status].color}
+                  >
+                    {TransactionStatusDisplay[transaction.status].label}
+                  </Badge>
+                </Box>
+              </Box>
             ))}
-          </Table.Tbody>
-        </Table>
+          </Box>
+        ) : (
+          <Table data-testid="transactions-container">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>User</Table.Th>
+                <Table.Th>Planet</Table.Th>
+                <Table.Th>Amount</Table.Th>
+                <Table.Th>Currency</Table.Th>
+                <Table.Th>Date</Table.Th>
+                <Table.Th w={0}>Status</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {data && !data.length && (
+                <Table.Tr>
+                  <Table.Td colSpan={5}>No transactions</Table.Td>
+                </Table.Tr>
+              )}
+              {data?.map((transaction) => (
+                <Table.Tr key={transaction.id}>
+                  <Table.Td>{transaction.user}</Table.Td>
+                  <Table.Td>{transaction.planet?.name}</Table.Td>
+                  <Table.Td>{transaction.amount}</Table.Td>
+                  <Table.Td>{transaction.currency}</Table.Td>
+                  <Table.Td>{toLocaleDate(transaction.date)}</Table.Td>
+                  <Table.Td>
+                    <Badge
+                      color={TransactionStatusDisplay[transaction.status].color}
+                    >
+                      {TransactionStatusDisplay[transaction.status].label}
+                    </Badge>
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        )}
       </Card>
       {isError && (
         <Title order={3} m="xl">

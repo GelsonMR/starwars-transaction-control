@@ -21,8 +21,8 @@ describe('DashboardPage component', () => {
 
     fireEvent.click(planetCard);
 
-    const transactionLines = await screen.findAllByRole('row');
+    const transactionLines = await screen.findAllByText(/User #/i);
 
-    expect(transactionLines).toHaveLength(20);
+    expect(transactionLines).toHaveLength(19);
   });
 });
