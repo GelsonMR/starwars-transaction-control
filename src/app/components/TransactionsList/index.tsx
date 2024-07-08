@@ -87,7 +87,7 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
       <Card withBorder p={0}>
         {!isDesktop ? (
           <Box data-testid="transactions-container">
-            {data && !data.length && <Text>No transactions</Text>}
+            {data && !data.length && <Text p="sm">No transactions</Text>}
             {data?.map((transaction, index) => (
               <Box key={transaction.id}>
                 {!!index && <Divider />}
@@ -181,7 +181,7 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
           w={400}
           onClose={close}
         >
-          Your efforts help on bringing peace across the galaxy, may the force
+          Your efforts help on bringing peace across the galaxy, may the Force
           be with you!
         </Alert>
       )}
