@@ -64,5 +64,5 @@ npm run test:coverage
      ![Successful alert](screenshots/image-6.png)
 
 ```
-May the force be with you!
+May the Force be with you!
 ```

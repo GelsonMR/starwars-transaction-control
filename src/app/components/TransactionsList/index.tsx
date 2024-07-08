@@ -181,7 +181,7 @@ export const TransactionsList = ({ planet }: TransactionsListProps) => {
           w={400}
           onClose={close}
         >
-          Your efforts help on bringing peace across the galaxy, may the force
+          Your efforts help on bringing peace across the galaxy, may the Force
           be with you!
         </Alert>
       )}
