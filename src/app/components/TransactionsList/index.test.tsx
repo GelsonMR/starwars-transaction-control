@@ -39,8 +39,8 @@ describe('TransactionsList component', () => {
   test('show only transactions in progress', async () => {
     render(<TransactionsList />);
 
-    const table = screen.getByRole('table');
-    expect(table).toHaveTextContent('In progress');
+    const transactionsContainer = screen.getByTestId('transactions-container');
+    expect(transactionsContainer).toHaveTextContent('In progress');
   });
 
   test('show only blocked transactions', async () => {
@@ -49,17 +49,17 @@ describe('TransactionsList component', () => {
 
     fireEvent.click(screen.getByRole('option', { name: 'Blocked' }));
 
-    const table = screen.getByRole('table');
-    expect(table).not.toHaveTextContent('In progress');
-    expect(table).toHaveTextContent('Blocked');
+    const transactionsContainer = screen.getByTestId('transactions-container');
+    expect(transactionsContainer).not.toHaveTextContent('In progress');
+    expect(transactionsContainer).toHaveTextContent('Blocked');
   });
 
   test('show only transactions in ICS currency', async () => {
     render(<TransactionsList />);
 
-    const table = screen.getByRole('table');
-    expect(table).not.toHaveTextContent('GCS');
-    expect(table).toHaveTextContent('ICS');
+    const transactionsContainer = screen.getByTestId('transactions-container');
+    expect(transactionsContainer).not.toHaveTextContent('GCS');
+    expect(transactionsContainer).toHaveTextContent('ICS');
   });
 
   test('show only transactions in all currencies', async () => {
@@ -68,9 +68,9 @@ describe('TransactionsList component', () => {
 
     fireEvent.click(screen.getByRole('option', { name: 'All currencies' }));
 
-    const table = screen.getByRole('table');
-    expect(table).toHaveTextContent('ICS');
-    expect(table).toHaveTextContent('GCS');
+    const transactionsContainer = screen.getByTestId('transactions-container');
+    expect(transactionsContainer).toHaveTextContent('ICS');
+    expect(transactionsContainer).toHaveTextContent('GCS');
   });
 
   test('successfully blocks all planet transactions', async () => {
@@ -93,8 +93,8 @@ describe('TransactionsList component', () => {
 
     render(<TransactionsList planet={planetMock} />);
 
-    const table = screen.getByRole('table');
-    expect(table).toHaveTextContent('In progress');
+    const transactionsContainer = screen.getByTestId('transactions-container');
+    expect(transactionsContainer).toHaveTextContent('In progress');
 
     const blockButton = await screen.findByText(
       /Block transactions of "Tatooine"/i,

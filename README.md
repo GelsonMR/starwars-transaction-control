@@ -25,7 +25,7 @@ Now, access [http://localhost:3000](http://localhost:3000) in your browser.
 To run the tests and check the coverage, run the following command:
 
 ```
-npm run test -- --coverage
+npm run test:coverage
 ```
 
 ## Features
